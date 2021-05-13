@@ -1,20 +1,36 @@
 package objetos;
 
-import java.util.ArrayList;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
-public class Habitat {
+public class Habitat implements Serializable {
 
+    @BsonProperty("_id")
+    @BsonId
+    private ObjectId id;
     private String nombre;
     private String clima;
     private String tipoVegetacion;
-    private ArrayList<String> continentes;
+    private List<String> continentes;
 
-    public Habitat(String nombre, String clima, String tipoVegetacion, ArrayList<String> continentes) {
+    public Habitat(String nombre, String clima, String tipoVegetacion, List<String> continentes) {
         this.nombre = nombre;
         this.clima = clima;
         this.tipoVegetacion = tipoVegetacion;
         this.continentes = continentes;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -41,34 +57,21 @@ public class Habitat {
         this.tipoVegetacion = tipoVegetacion;
     }
 
-    public ArrayList<String> getContinentes() {
+    public List<String> getContinentes() {
         return continentes;
     }
 
-    public void setContinentes(ArrayList<String> continentes) {
+    public void setContinentes(List<String> continentes) {
         this.continentes = continentes;
     }
 
     @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.nombre);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object object) {
+        if (!(object instanceof Habitat)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Habitat other = (Habitat) obj;
-        return Objects.equals(this.nombre, other.nombre);
+        Habitat other = (Habitat) object;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override
@@ -76,5 +79,5 @@ public class Habitat {
         return "Habitat{" + "nombre=" + nombre + ", clima=" + clima + ", tipoVegetacion=" + tipoVegetacion + ", continentes=" + continentes + '}';
     }
 
-    
+
 }

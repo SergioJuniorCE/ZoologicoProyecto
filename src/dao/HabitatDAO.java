@@ -1,72 +1,82 @@
 package dao;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import java.util.ArrayList;
+import exceptions.DAOException;
 import objetos.Habitat;
-import org.bson.Document;
+import static com.mongodb.client.model.Updates.combine;
 import org.bson.types.ObjectId;
+import static com.mongodb.client.model.Updates.set;
 
-public class HabitatDAO {
 
-    private final MongoDatabase database;
-    MongoCollection<Document> collection;
-    
-    public HabitatDAO() {
-        MongoClientURI uri = new MongoClientURI(
-                "mongodb+srv://admin:admin@cluster0.omhei.mongodb.net/myFirstDa"
-                + "tabase?retryWrites=true&w=majority");
-        MongoClient mongoClient = new MongoClient(uri);
-        database = mongoClient.getDatabase("zoologico");
-        collection = database.getCollection("habitats");
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.mongodb.client.model.Filters.eq;
+
+public class HabitatDAO extends BaseDAO<Habitat> {
+
+    @Override
+    public void create(Habitat ob) {
+      MongoCollection<Habitat> collection = this.getCollection();
+      collection.insertOne(ob);
     }
 
-    /**
-     *
-     * @param nombre
-     * @param clima
-     * @param tipoVegetacion
-     * @param continentes
-     * @return
-     */
-    public boolean create(String nombre, String clima, String tipoVegetacion,
-            ArrayList<String> continentes) {
-        try {
-            Habitat habitat = new Habitat(nombre, clima, tipoVegetacion, continentes);
-            Document document = new Document("nombre", nombre).
-                    append("clima", clima).
-                    append("tipoVegetacion", tipoVegetacion);
-
-            Document continenteDoc = new Document();
-            for (int i = 0; i < continentes.size(); i++) {
-                String cont = continentes.get(i);
-                continenteDoc.append(String.valueOf(i), cont);
-            }
-            document.append("continentes", continenteDoc);
-            
-            collection.insertOne(document);
-            return true;
-        } catch (Exception e) {
-            System.out.println(e);
-            return false;
+    @Override
+    public void delete(Habitat ob) throws DAOException {
+        Habitat habitat = this.get(ob.getId());
+        if (habitat != null) {
+            MongoCollection<Habitat> coleccion = this.getCollection();
+            coleccion.deleteOne(eq("_id", ob.getId()));
+        } else {
+            throw new DAOException(String.format("Habitat %s no encontrado", ob.getId()));
         }
     }
-    
-    public boolean update(ObjectId id, String nombre, String clima, String tipoVegetacion,
-            ArrayList<String> continentes){
-        
-        return true;
+
+    @Override
+    public void update(Habitat ob) throws DAOException {
+        MongoCollection<Habitat> coleccion = this.getCollection();
+        coleccion.updateOne(
+                eq("_id", ob.getId()),
+                combine(
+                        set("nombre", ob.getNombre()),
+                        set("clima", ob.getClima()),
+                        set("tipoVegetacion", ob.getTipoVegetacion()),
+                        set("continentes", ob.getContinentes())
+                )
+        );
     }
-    
-    public Habitat get(ObjectId id){
-        try {
-            
-            Document habitatDoc = collection.find(new Document("_id", id)).first();
-            System.out.println(habitatDoc.toJson());
-        } catch (Exception e) {
+
+    @Override
+    public Habitat get(ObjectId id) {
+        MongoCollection<Habitat> coleccion = this.getCollection();
+        return coleccion.find(eq("_id", id)).first();
+    }
+
+    public Habitat get(String id) {
+        return this.get(new ObjectId(id));
+    }
+
+    public Habitat getByName(String nombre) {
+        MongoCollection<Habitat> coleccion = this.getCollection();
+        return coleccion.find(eq("nombre", nombre)).first();
+    }
+
+    @Override
+    public List<Habitat> list() {
+        MongoCollection<Habitat> coleccion = this.getCollection();
+        FindIterable<Habitat> habitats = coleccion.find();
+        List<Habitat> listaHabitats = new ArrayList<>();
+        for (Habitat temp : habitats) {
+            listaHabitats.add(temp);
         }
-        return null;
+        return listaHabitats;
+    }
+
+    @Override
+    public MongoCollection<Habitat> getCollection() {
+        MongoDatabase db = this.getMongoDatabase();
+        return db.getCollection("habitats", Habitat.class);
     }
 }

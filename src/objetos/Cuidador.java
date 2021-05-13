@@ -4,8 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+
 public class Cuidador extends Empleado {
 
+    @BsonProperty("_id")
+    @BsonId
+    private ObjectId id;
     private ArrayList<Especie> expertos;
     private ArrayList<Especie> basicos;
     private Date fechaCiudado;
@@ -19,7 +26,6 @@ public class Cuidador extends Empleado {
         this.especieCuidada = especieCuidada;
     }
 
-    
 
     public ArrayList<Especie> getExpertos() {
         return expertos;
@@ -84,10 +90,7 @@ public class Cuidador extends Empleado {
         if (!Objects.equals(this.fechaCiudado, other.fechaCiudado)) {
             return false;
         }
-        if (!Objects.equals(this.especieCuidada, other.especieCuidada)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.especieCuidada, other.especieCuidada);
     }
 
     @Override

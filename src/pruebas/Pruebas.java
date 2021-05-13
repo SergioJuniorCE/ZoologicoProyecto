@@ -1,17 +1,18 @@
 package pruebas;
 
 import dao.HabitatDAO;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import objetos.Habitat;
 import org.bson.types.ObjectId;
 
 public class Pruebas {
 
     public static void main(String args[]) {
         HabitatDAO dao = new HabitatDAO();
-        ArrayList<String> continentes = new ArrayList<>();
-        continentes.add("America");
-        continentes.add("Oceania");
-        dao.create("Selva", "Humedo", "Forndoza", continentes);
-        dao.get(new ObjectId("609cbdfd453ecf4ebb4eefd0"));
+        List<String> continentes = Arrays.asList("Oceania", "America");
+        dao.create(new Habitat("Selva", "Humedo", "Forndoza", continentes));
+        System.out.println(dao.get(new ObjectId("609dac45edf35fa6bb5dcfc2")));
     }
 }
