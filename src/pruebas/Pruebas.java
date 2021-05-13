@@ -1,20 +1,17 @@
 package pruebas;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import dao.HabitatDAO;
+import java.util.ArrayList;
+import org.bson.types.ObjectId;
 
 public class Pruebas {
 
     public static void main(String args[]) {
-        MongoClientURI uri = new MongoClientURI(
-                "mongodb+srv://admin:admin@cluster0.omhei.mongodb.net/myFirstDa"
-                        + "tabase?retryWrites=true&w=majority");
-        MongoClient mongoClient = new MongoClient(uri);
-        
-        MongoDatabase database = mongoClient.getDatabase("zoologico");
-        MongoCollection collection = database.getCollection("animales");
-//        collection.insertOne();
+        HabitatDAO dao = new HabitatDAO();
+        ArrayList<String> continentes = new ArrayList<>();
+        continentes.add("America");
+        continentes.add("Oceania");
+        dao.create("Selva", "Humedo", "Forndoza", continentes);
+        dao.get(new ObjectId("609cbdfd453ecf4ebb4eefd0"));
     }
 }
