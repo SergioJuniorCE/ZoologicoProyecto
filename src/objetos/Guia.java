@@ -1,10 +1,17 @@
 package objetos;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+
 import java.util.Date;
 import java.util.Objects;
 
 public class Guia extends Empleado {
 
+    @BsonProperty("_id")
+    @BsonId
+    private ObjectId id;
     private Itinerario itinerario;
 
     public Guia(Itinerario itinerario, String nombre, String telefono, Date fechaInicio) {

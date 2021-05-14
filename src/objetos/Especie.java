@@ -1,10 +1,17 @@
 package objetos;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Especie {
 
+    @BsonProperty("_id")
+    @BsonId
+    private ObjectId id;
     private String nombre;
     private String nombreCientifico;
     private String descripcion;
@@ -15,6 +22,14 @@ public class Especie {
         this.nombreCientifico = nombreCientifico;
         this.descripcion = descripcion;
         this.habitats = habitats;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -50,28 +65,12 @@ public class Especie {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + Objects.hashCode(this.nombre);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object object) {
+        if (!(object instanceof Especie)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Especie other = (Especie) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        return true;
+        Especie other = (Especie) object;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override

@@ -2,8 +2,6 @@ package objetos;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
-
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
@@ -26,6 +24,13 @@ public class Cuidador extends Empleado {
         this.especieCuidada = especieCuidada;
     }
 
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 
     public ArrayList<Especie> getExpertos() {
         return expertos;
@@ -60,37 +65,12 @@ public class Cuidador extends Empleado {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.expertos);
-        hash = 67 * hash + Objects.hashCode(this.basicos);
-        hash = 67 * hash + Objects.hashCode(this.fechaCiudado);
-        hash = 67 * hash + Objects.hashCode(this.especieCuidada);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object object) {
+        if (!(object instanceof Cuidador)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Cuidador other = (Cuidador) obj;
-        if (!Objects.equals(this.expertos, other.expertos)) {
-            return false;
-        }
-        if (!Objects.equals(this.basicos, other.basicos)) {
-            return false;
-        }
-        if (!Objects.equals(this.fechaCiudado, other.fechaCiudado)) {
-            return false;
-        }
-        return Objects.equals(this.especieCuidada, other.especieCuidada);
+        Cuidador other = (Cuidador) object;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override

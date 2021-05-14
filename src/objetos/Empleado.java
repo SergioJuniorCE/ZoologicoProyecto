@@ -1,10 +1,17 @@
 package objetos;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+
 import java.util.Date;
 import java.util.Objects;
 
 public class Empleado {
 
+    @BsonProperty("_id")
+    @BsonId
+    private ObjectId id;
     private String nombre;
     private String telefono;
     private Date fechaInicio;
@@ -13,6 +20,14 @@ public class Empleado {
         this.nombre = nombre;
         this.telefono = telefono;
         this.fechaInicio = fechaInicio;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -40,33 +55,12 @@ public class Empleado {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.nombre);
-        hash = 79 * hash + Objects.hashCode(this.telefono);
-        hash = 79 * hash + Objects.hashCode(this.fechaInicio);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object object) {
+        if (!(object instanceof Empleado)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Empleado other = (Empleado) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        if (!Objects.equals(this.telefono, other.telefono)) {
-            return false;
-        }
-        return Objects.equals(this.fechaInicio, other.fechaInicio);
+        Empleado other = (Empleado) object;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override
