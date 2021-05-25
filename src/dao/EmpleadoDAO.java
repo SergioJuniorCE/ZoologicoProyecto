@@ -37,9 +37,9 @@ public class EmpleadoDAO extends BaseDAO<Empleado> {
         coleccion.updateOne(
                 eq("_id", ob.getId()),
                 combine(
-                        set("Nombre", ob.getNombre()),
-                        set("Telefono", ob.getTelefono()),
-                        set("Fecha Inicio", ob.getFechaInicio())
+                        set("nombre", ob.getNombre()),
+                        set("telefono", ob.getTelefono()),
+                        set("fechaInicio", ob.getFechaInicio())
                 )
         );
     }

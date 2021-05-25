@@ -1,10 +1,17 @@
 package objetos;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Zona {
 
+    @BsonProperty("_id")
+    @BsonId
+    private ObjectId id;
     private String nombre;
     private int extencion;
     private ArrayList<Especie> especies;
@@ -13,6 +20,14 @@ public class Zona {
         this.nombre = nombre;
         this.extencion = extencion;
         this.especies = especies;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public String getNombre() {

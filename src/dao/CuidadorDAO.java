@@ -37,11 +37,11 @@ public class CuidadorDAO extends BaseDAO<Cuidador> {
         coleccion.updateOne(
                 eq("_id", ob.getId()),
                 combine(
-                        set("Nombre", ob.getNombre()),
-                        set("Expertos", ob.getExpertos()),
-                        set("Basicos", ob.getBasicos()),
-                        set("Fecha cuidado", ob.getFechaInicio()),
-                        set("Especie cuidada", ob.getEspecieCuidada())
+                        set("nombre", ob.getNombre()),
+                        set("expertos", ob.getExpertos()),
+                        set("basicos", ob.getBasicos()),
+                        set("fechaInicio", ob.getFechaInicio()),
+                        set("especieCuidada", ob.getEspecieCuidada())
                 )
         );
     }

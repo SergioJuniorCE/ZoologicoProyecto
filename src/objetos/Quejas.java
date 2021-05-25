@@ -1,10 +1,17 @@
 package objetos;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+
 import java.util.Date;
 import java.util.Objects;
 
 public class Quejas {
 
+    @BsonProperty("_id")
+    @BsonId
+    private ObjectId id;
     private String descripcion;
     private Date fecha;
     private String email;
@@ -15,6 +22,14 @@ public class Quejas {
         this.fecha = fecha;
         this.email = email;
         this.telefono = telefono;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public String getDescripcion() {

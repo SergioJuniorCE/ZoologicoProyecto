@@ -1,7 +1,14 @@
 package objetos;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+
 public class Itinerario {
 
+    @BsonProperty("_id")
+    @BsonId
+    private ObjectId id;
     private int duracionMin;
     private int longitud;
     private int numeroVisitantes;
@@ -12,6 +19,14 @@ public class Itinerario {
         this.longitud = longitud;
         this.numeroVisitantes = numeroVisitantes;
         this.numeroEspecies = numeroEspecies;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public int getDuracionMin() {

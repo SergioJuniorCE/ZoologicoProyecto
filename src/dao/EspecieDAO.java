@@ -37,10 +37,10 @@ public class EspecieDAO extends BaseDAO<Especie> {
         coleccion.updateOne(
                 eq("_id", ob.getId()),
                 combine(
-                        set("Nombre", ob.getNombre()),
-                        set("Nombre Cientifico", ob.getNombreCientifico()),
-                        set("Descripcion", ob.getDescripcion()),
-                        set("Habitats", ob.getHabitats())
+                        set("nombre", ob.getNombre()),
+                        set("nombreCientifico", ob.getNombreCientifico()),
+                        set("descripcion", ob.getDescripcion()),
+                        set("habitats", ob.getHabitats())
                 )
         );
     }
