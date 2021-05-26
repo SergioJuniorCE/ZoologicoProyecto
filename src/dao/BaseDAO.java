@@ -2,7 +2,6 @@ package dao;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import exceptions.DAOException;
@@ -21,9 +20,6 @@ public abstract class BaseDAO<Obj> {
     public MongoDatabase getMongoDatabase() {
         CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
                 fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-//        MongoClientURI uri = new MongoClientURI(
-//                "mongodb+srv://admin:admin@cluster0.omhei.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-//        MongoClient mongoClient = new MongoClient(uri);
         MongoClient mongoClient = new MongoClient(
                 "localhost",
                 MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
