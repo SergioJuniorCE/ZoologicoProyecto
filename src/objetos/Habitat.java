@@ -5,8 +5,6 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
 
 public class Habitat implements Serializable {
 
@@ -16,9 +14,11 @@ public class Habitat implements Serializable {
     private String nombre;
     private String clima;
     private String tipoVegetacion;
-    private List<String> continentes;
+    private String continentes;
 
-    public Habitat(String nombre, String clima, String tipoVegetacion, List<String> continentes) {
+    public Habitat(){}
+    
+    public Habitat(String nombre, String clima, String tipoVegetacion, String continentes) {
         this.nombre = nombre;
         this.clima = clima;
         this.tipoVegetacion = tipoVegetacion;
@@ -57,11 +57,11 @@ public class Habitat implements Serializable {
         this.tipoVegetacion = tipoVegetacion;
     }
 
-    public List<String> getContinentes() {
+    public String getContinentes() {
         return continentes;
     }
 
-    public void setContinentes(List<String> continentes) {
+    public void setContinentes(String continentes) {
         this.continentes = continentes;
     }
 

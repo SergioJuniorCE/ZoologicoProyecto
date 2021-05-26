@@ -5,6 +5,13 @@
  */
 package interfaz;
 
+import control.Control;
+import exceptions.DAOException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import objetos.Habitat;
+import tables.HabitatTable;
+
 /**
  *
  * @author maikr
@@ -47,13 +54,13 @@ public class MainJFrame extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        habitatNombreTextField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
+        habitatTable = new javax.swing.JTable();
+        habitatRegistrarBoton = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -107,6 +114,8 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        menuZona = new javax.swing.JMenu();
+        menuZonaCrear = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -258,16 +267,20 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel6.setText("Nombre");
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
+        habitatNombreTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                habitatNombreTextFieldActionPerformed(evt);
+            }
+        });
+
         jLabel7.setText("Clima");
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel8.setText("Tipo de vegetacion");
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel9.setText("Continente");
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        habitatTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -290,19 +303,18 @@ public class MainJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-            jTable2.getColumnModel().getColumn(4).setResizable(false);
+        jScrollPane4.setViewportView(habitatTable);
+        if (habitatTable.getColumnModel().getColumnCount() > 0) {
+            habitatTable.getColumnModel().getColumn(0).setResizable(false);
+            habitatTable.getColumnModel().getColumn(1).setResizable(false);
+            habitatTable.getColumnModel().getColumn(2).setResizable(false);
+            habitatTable.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jButton5.setText("Registrar");
-        jButton5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        habitatRegistrarBoton.setText("Registrar");
+        habitatRegistrarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                habitatRegistrarBotonActionPerformed(evt);
             }
         });
 
@@ -315,11 +327,28 @@ public class MainJFrame extends javax.swing.JFrame {
         jButton8.setText("Limpiar");
         jButton8.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        habitatClimaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cálido", "Templado", "Frío"}));
+        habitatClimaComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                habitatClimaComboBoxActionPerformed(evt);
+            }
+        });
 
-        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        habitatVegetacionCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desierto", "Tundra", "Taiga", "Bosque", "Selva", "Savana" }));
 
-        jComboBox10.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        habitatContinenteCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asia", "America", "Africa", "Antartida", "Europa", "Oceania"}));
+        habitatContinenteCombobox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                habitatContinenteComboboxActionPerformed(evt);
+            }
+        });
+
+        habitatButonBuscar.setText("Buscar");
+        habitatButonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                habitatButonBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -364,19 +393,19 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(habitatNombreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7)
                         .addComponent(jLabel8)
                         .addComponent(jLabel9)
-                        .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(habitatClimaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(habitatVegetacionCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(habitatContinenteCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel6))
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
+                    .addComponent(habitatRegistrarBoton)
                     .addComponent(jButton6)
                     .addComponent(jButton7)
                     .addComponent(jButton8))
@@ -665,14 +694,11 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Quejas", jPanel8);
 
-        jLabel10.setText("Nombre");
-        jLabel10.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel22.setText("Empleado");
 
-        jLabel11.setText("Extención");
-        jLabel11.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel23.setText("Teléfono");
 
-        jLabel12.setText("especies");
-        jLabel12.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel24.setText("Fecha de inicio");
 
         jTextField7.setToolTipText("");
 
@@ -818,6 +844,13 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
+        menuZona.setText("Zona");
+
+        menuZonaCrear.setText("CRUD");
+        menuZona.add(menuZonaCrear);
+
+        jMenuBar1.add(menuZona);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -838,9 +871,24 @@ public class MainJFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton15ActionPerformed
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void habitatRegistrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_habitatRegistrarBotonActionPerformed
+        String clima, vegetacion, continente, nombre;
+        nombre = habitatNombreTextField.getText();
+        vegetacion = habitatVegetacionCombobox.getItemAt(habitatVegetacionCombobox.getSelectedIndex());
+        clima =  habitatClimaComboBox.getItemAt(habitatClimaComboBox.getSelectedIndex());
+        continente = habitatContinenteCombobox.getItemAt(habitatContinenteCombobox.getSelectedIndex());
+        try {
+            Control.createHabitat(clima, vegetacion, continente, nombre);
+            JOptionPane.showMessageDialog(null, "Habitat Creado");
+        } catch (DAOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+    }//GEN-LAST:event_habitatRegistrarBotonActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
@@ -861,6 +909,29 @@ public class MainJFrame extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void habitatClimaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_habitatClimaComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_habitatClimaComboBoxActionPerformed
+
+    private void habitatNombreTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_habitatNombreTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_habitatNombreTextFieldActionPerformed
+
+    private void habitatButonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_habitatButonBuscarActionPerformed
+        try {
+            String nombre = habitatNombreTextField.getText();
+            List<Habitat> habitats = Control.searchHabitat(nombre);
+            HabitatTable table = new HabitatTable(habitats);
+            habitatTable.setModel(table);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_habitatButonBuscarActionPerformed
+
+    private void habitatContinenteComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_habitatContinenteComboboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_habitatContinenteComboboxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -890,15 +961,22 @@ public class MainJFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainJFrame().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainJFrame().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
+    private com.github.lgooddatepicker.components.DatePicker datePicker2;
+    private com.github.lgooddatepicker.components.DatePicker datePicker3;
+    private javax.swing.JButton habitatButonBuscar;
+    private javax.swing.JComboBox<String> habitatClimaComboBox;
+    private javax.swing.JComboBox<String> habitatContinenteCombobox;
+    private javax.swing.JTextField habitatNombreTextField;
+    private javax.swing.JButton habitatRegistrarBoton;
+    private javax.swing.JTable habitatTable;
+    private javax.swing.JComboBox<String> habitatVegetacionCombobox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -916,16 +994,17 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox10;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox8;
-    private javax.swing.JComboBox<String> jComboBox9;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JComboBox<String> jComboBox6;
+    private javax.swing.JComboBox<String> jComboBox7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -963,7 +1042,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable7;
@@ -973,10 +1051,11 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JMenu menuZona;
+    private javax.swing.JMenuItem menuZonaCrear;
     // End of variables declaration//GEN-END:variables
 }
