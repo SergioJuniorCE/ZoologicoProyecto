@@ -18,6 +18,8 @@ public class Guia extends Empleado {
         super(nombre, telefono, fechaInicio);
         this.itinerario = itinerario;
     }
+    
+    
 
     public Itinerario getItinerario() {
         return itinerario;

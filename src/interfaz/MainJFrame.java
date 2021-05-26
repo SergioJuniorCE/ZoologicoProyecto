@@ -6,11 +6,17 @@
 package interfaz;
 
 import control.Control;
+import dao.EspecieDAO;
+import dao.HabitatDAO;
 import exceptions.DAOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import objetos.Especie;
 import objetos.Habitat;
+import objetos.Itinerario;
 import tables.HabitatTable;
+import tables.ItinerarioTable;
 
 /**
  *
@@ -18,13 +24,32 @@ import tables.HabitatTable;
  */
 public class MainJFrame extends javax.swing.JFrame {
 
+    
+    private HabitatDAO HabitatDAO;
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() {
         initComponents();
+        this.HabitatDAO = new HabitatDAO();
+        comboHabitat();
     }
 
+    
+    
+    
+    
+        public void comboHabitat(){
+         ArrayList<Habitat> listaHabitat = (ArrayList<Habitat>) this.HabitatDAO.list();
+      
+        for (Habitat habitat : listaHabitat) {
+            
+            this.EspecieHabitatComboBox.addItem(habitat.getNombre());
+            
+        }
+        
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,7 +67,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         especieDescripcionTextArea = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        EspecieHabitatComboBox = new javax.swing.JComboBox<String>();
         especieNombreTextField = new javax.swing.JTextField();
         especieNombreCientificoTextField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -64,9 +89,9 @@ public class MainJFrame extends javax.swing.JFrame {
         habtitatEditarBoton = new javax.swing.JButton();
         habitatEliminarBoton = new javax.swing.JButton();
         habitatLimpiarBoton = new javax.swing.JButton();
-        habitatClimaCombobox = new javax.swing.JComboBox<>();
-        habitatVegetacionCombobox = new javax.swing.JComboBox<>();
-        habitatContinenteCombobox = new javax.swing.JComboBox<>();
+        habitatClimaCombobox = new javax.swing.JComboBox<String>();
+        habitatVegetacionCombobox = new javax.swing.JComboBox<String>();
+        habitatContinenteCombobox = new javax.swing.JComboBox<String>();
         habitatBuscarBoton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -87,7 +112,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<String>();
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -107,12 +132,20 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jButton23 = new javax.swing.JButton();
-        jButton24 = new javax.swing.JButton();
+        itinerarioRegistrarRecorridoBoton = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         quejasTables = new javax.swing.JTable();
         quejasRegistrarBoton = new javax.swing.JButton();
         quejasEliminarBoton = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        quejaDescripcionTextFileld = new javax.swing.JTextArea();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        quejaEmailTextFile = new javax.swing.JTextField();
+        quejaTelefonoTextField = new javax.swing.JTextField();
+        quejaActualizarBoton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -130,6 +163,12 @@ public class MainJFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(especieDescripcionTextArea);
 
         jLabel4.setText("Hábitad");
+
+        EspecieHabitatComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EspecieHabitatComboBoxActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,6 +205,11 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel5.setText("Especies Registradas");
 
         jButton1.setText("Registrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Eliminar");
 
@@ -199,7 +243,7 @@ public class MainJFrame extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(EspecieHabitatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1))
                         .addGap(18, 18, 18))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -239,7 +283,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(EspecieHabitatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -250,7 +294,7 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(jButton4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+                .addContainerGap(54, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,6 +356,11 @@ public class MainJFrame extends javax.swing.JFrame {
         habitatLimpiarBoton.setText("Limpiar");
 
         habitatClimaCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cálido", "Templado", "Frío" }));
+        habitatClimaCombobox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                habitatClimaComboboxActionPerformed(evt);
+            }
+        });
 
         habitatVegetacionCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desierto", "Tundra", "Taiga", "Bosque", "Selva", "Savana" }));
 
@@ -386,7 +435,7 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(habitatEliminarBoton)
                     .addComponent(habitatLimpiarBoton)
                     .addComponent(habitatBuscarBoton))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Hábitat", jPanel3);
@@ -495,7 +544,7 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton14)
@@ -638,7 +687,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton11)
                     .addComponent(jButton12))
-                .addContainerGap(218, Short.MAX_VALUE))
+                .addContainerGap(258, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -646,7 +695,7 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -725,7 +774,12 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jButton23.setText("Registrar Cuidador");
 
-        jButton24.setText("Registrar Recorrido");
+        itinerarioRegistrarRecorridoBoton.setText("Registrar Recorrido");
+        itinerarioRegistrarRecorridoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itinerarioRegistrarRecorridoBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -749,7 +803,7 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel26)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(jButton24)))
+                        .addComponent(itinerarioRegistrarRecorridoBoton)))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -766,54 +820,114 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                    .addComponent(itinerarioRegistrarRecorridoBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Itinerario", jPanel7);
 
         quejasTables.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Num. Personas", "Num. Especies", "Zonas", "Distacia", "Fecha"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane7.setViewportView(quejasTables);
 
         quejasRegistrarBoton.setText("Registrar");
 
         quejasEliminarBoton.setText("Eliminar");
 
+        jLabel17.setText("Queja:");
+
+        quejaDescripcionTextFileld.setColumns(20);
+        quejaDescripcionTextFileld.setRows(5);
+        jScrollPane8.setViewportView(quejaDescripcionTextFileld);
+
+        jLabel18.setText("Email:");
+
+        jLabel19.setText("Telefono:");
+
+        quejaActualizarBoton.setText("Actualizar");
+        quejaActualizarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quejaActualizarBotonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane7)
-                .addContainerGap())
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(323, 323, 323)
-                .addComponent(quejasRegistrarBoton)
-                .addGap(215, 215, 215)
-                .addComponent(quejasEliminarBoton)
-                .addContainerGap(406, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(321, 321, 321)
+                        .addComponent(quejasRegistrarBoton)
+                        .addGap(214, 214, 214)
+                        .addComponent(quejasEliminarBoton))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(quejaEmailTextFile, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(quejaTelefonoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(43, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 1011, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 628, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(255, 255, 255))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(quejaActualizarBoton)
+                .addGap(60, 60, 60))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(quejaActualizarBoton)
+                .addGap(1, 1, 1)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel19)
+                    .addComponent(quejaEmailTextFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(quejaTelefonoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel17)
+                        .addGap(86, 86, 86))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)))
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(quejasRegistrarBoton)
                     .addComponent(quejasEliminarBoton))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Quejas", jPanel8);
@@ -889,6 +1003,49 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_habitatBuscarBotonActionPerformed
 
+    private void itinerarioRegistrarRecorridoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itinerarioRegistrarRecorridoBotonActionPerformed
+        JRecorrido ventana = new JRecorrido();
+        ventana.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_itinerarioRegistrarRecorridoBotonActionPerformed
+
+    private void quejaActualizarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quejaActualizarBotonActionPerformed
+        try {
+           
+            List<Itinerario> itinerarios = Control.searchItinerario();
+            ItinerarioTable table = new ItinerarioTable(itinerarios);
+            quejasTables.setModel(table);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_quejaActualizarBotonActionPerformed
+
+    private void EspecieHabitatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EspecieHabitatComboBoxActionPerformed
+      Habitat habitat = new Habitat();
+      
+    }//GEN-LAST:event_EspecieHabitatComboBoxActionPerformed
+
+    private void habitatClimaComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_habitatClimaComboboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_habitatClimaComboboxActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String nombre, nom_cientifico, descripcion, habitat;
+        nombre = especieNombreTextField.getText();
+        nom_cientifico = especieNombreCientificoTextField.getText();
+        descripcion =  especieDescripcionTextArea.getText();
+        habitat = EspecieHabitatComboBox.getItemAt(EspecieHabitatComboBox.getSelectedIndex());
+        try {
+            Control.createEspecie(nombre, nom_cientifico, descripcion, habitat);
+            JOptionPane.showMessageDialog(null, "Especie Creada");
+        } catch (DAOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }       
+        
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -925,6 +1082,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> EspecieHabitatComboBox;
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
     private javax.swing.JTextArea especieDescripcionTextArea;
     private javax.swing.JTextField especieNombreCientificoTextField;
@@ -939,6 +1097,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTable habitatTable;
     private javax.swing.JComboBox<String> habitatVegetacionCombobox;
     private javax.swing.JButton habtitatEditarBoton;
+    private javax.swing.JButton itinerarioRegistrarRecorridoBoton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -951,11 +1110,9 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
-    private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -965,6 +1122,9 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
@@ -991,6 +1151,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
@@ -1004,6 +1165,10 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JButton quejaActualizarBoton;
+    private javax.swing.JTextArea quejaDescripcionTextFileld;
+    private javax.swing.JTextField quejaEmailTextFile;
+    private javax.swing.JTextField quejaTelefonoTextField;
     private javax.swing.JButton quejasEliminarBoton;
     private javax.swing.JButton quejasRegistrarBoton;
     private javax.swing.JTable quejasTables;
