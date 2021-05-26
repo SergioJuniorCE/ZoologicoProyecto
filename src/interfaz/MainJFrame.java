@@ -40,11 +40,11 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        especieDescripcionTextArea = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        especieNombreTextField = new javax.swing.JTextField();
+        especieNombreCientificoTextField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
@@ -110,8 +110,9 @@ public class MainJFrame extends javax.swing.JFrame {
         jButton24 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jButton19 = new javax.swing.JButton();
-        jButton20 = new javax.swing.JButton();
+        quejasTables = new javax.swing.JTable();
+        quejasRegistrarBoton = new javax.swing.JButton();
+        quejasEliminarBoton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -119,20 +120,16 @@ public class MainJFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Nombre");
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel2.setText("Nombre Científico");
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel3.setText("Descripción de la especie");
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        especieDescripcionTextArea.setColumns(20);
+        especieDescripcionTextArea.setRows(5);
+        jScrollPane1.setViewportView(especieDescripcionTextArea);
 
         jLabel4.setText("Hábitad");
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -167,7 +164,6 @@ public class MainJFrame extends javax.swing.JFrame {
         }
 
         jLabel5.setText("Especies Registradas");
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jButton1.setText("Registrar");
 
@@ -198,8 +194,8 @@ public class MainJFrame extends javax.swing.JFrame {
                                     .addComponent(jLabel2))
                                 .addGap(7, 7, 7)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField1)))
+                                    .addComponent(especieNombreCientificoTextField)
+                                    .addComponent(especieNombreTextField)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -231,11 +227,11 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(especieNombreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(especieNombreCientificoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -264,16 +260,12 @@ public class MainJFrame extends javax.swing.JFrame {
         jTabbedPane1.addTab("Especie", jPanel2);
 
         jLabel6.setText("Nombre");
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel7.setText("Clima");
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel8.setText("Tipo de vegetacion");
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel9.setText("Continente");
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         habitatTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -307,7 +299,6 @@ public class MainJFrame extends javax.swing.JFrame {
         }
 
         habitatRegistrarBoton.setText("Registrar");
-        habitatRegistrarBoton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         habitatRegistrarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 habitatRegistrarBotonActionPerformed(evt);
@@ -315,13 +306,10 @@ public class MainJFrame extends javax.swing.JFrame {
         });
 
         habtitatEditarBoton.setText("Editar");
-        habtitatEditarBoton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         habitatEliminarBoton.setText("Eliminar");
-        habitatEliminarBoton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         habitatLimpiarBoton.setText("Limpiar");
-        habitatLimpiarBoton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         habitatClimaCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cálido", "Templado", "Frío" }));
 
@@ -329,7 +317,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
         habitatContinenteCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asia", "America", "Africa", "Antartida", "Europa", "Oceania" }));
 
-        habitatBuscarBoton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         habitatBuscarBoton.setText("Buscar");
         habitatBuscarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -405,13 +392,10 @@ public class MainJFrame extends javax.swing.JFrame {
         jTabbedPane1.addTab("Hábitat", jPanel3);
 
         jLabel14.setText("Nombre");
-        jLabel14.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel15.setText("Teléfono");
-        jLabel15.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel16.setText("Fecha de inicio");
-        jLabel16.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -445,7 +429,6 @@ public class MainJFrame extends javax.swing.JFrame {
         }
 
         jButton14.setText("Buscar");
-        jButton14.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jButton15.setText("Registrar");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
@@ -528,13 +511,10 @@ public class MainJFrame extends javax.swing.JFrame {
         jTabbedPane1.addTab("Empleado", jPanel5);
 
         jLabel10.setText("Nombre");
-        jLabel10.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel11.setText("Extención");
-        jLabel11.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jLabel12.setText("especies");
-        jLabel12.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jTextField7.setToolTipText("");
 
@@ -588,10 +568,8 @@ public class MainJFrame extends javax.swing.JFrame {
         jButton12.setText("Limpiar");
 
         jLabel13.setText("Buscar");
-        jLabel13.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         jButton13.setText("Busca");
-        jButton13.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton13ActionPerformed(evt);
@@ -741,16 +719,12 @@ public class MainJFrame extends javax.swing.JFrame {
             jTable7.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jLabel25.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel25.setText("Cuidadores");
 
-        jLabel26.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel26.setText("Recorridos");
 
-        jButton23.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton23.setText("Registrar Cuidador");
 
-        jButton24.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton24.setText("Registrar Recorrido");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -798,9 +772,22 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Itinerario", jPanel7);
 
-        jButton19.setText("Registrar");
+        quejasTables.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane7.setViewportView(quejasTables);
 
-        jButton20.setText("Eliminar");
+        quejasRegistrarBoton.setText("Registrar");
+
+        quejasEliminarBoton.setText("Eliminar");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -812,9 +799,9 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(323, 323, 323)
-                .addComponent(jButton19)
+                .addComponent(quejasRegistrarBoton)
                 .addGap(215, 215, 215)
-                .addComponent(jButton20)
+                .addComponent(quejasEliminarBoton)
                 .addContainerGap(406, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -824,8 +811,8 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton19)
-                    .addComponent(jButton20))
+                    .addComponent(quejasRegistrarBoton)
+                    .addComponent(quejasEliminarBoton))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -939,6 +926,9 @@ public class MainJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
+    private javax.swing.JTextArea especieDescripcionTextArea;
+    private javax.swing.JTextField especieNombreCientificoTextField;
+    private javax.swing.JTextField especieNombreTextField;
     private javax.swing.JButton habitatBuscarBoton;
     private javax.swing.JComboBox<String> habitatClimaCombobox;
     private javax.swing.JComboBox<String> habitatContinenteCombobox;
@@ -959,9 +949,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
-    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton3;
@@ -1010,14 +998,14 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable7;
     private javax.swing.JTable jTable8;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JButton quejasEliminarBoton;
+    private javax.swing.JButton quejasRegistrarBoton;
+    private javax.swing.JTable quejasTables;
     // End of variables declaration//GEN-END:variables
 }
