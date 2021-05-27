@@ -8,6 +8,7 @@ import dao.ItinerarioDAO;
 import dao.ZonaDAO;
 import exceptions.DAOException;
 import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,7 +91,7 @@ public class Control {
         return empleados;
     }
          
-        public static void createEmpleado(String nombre, String telefono, Date fechaInicio) throws DAOException {
+        public static void createEmpleado(String nombre, String telefono, LocalDate fechaInicio) throws DAOException {
            
         try {
             EmpleadoDAO dao = new EmpleadoDAO();
@@ -126,7 +127,7 @@ public class Control {
     }
         
         
-        public static void createZona(String nombre, int extencion,  ArrayList<Especie> especies) throws DAOException {
+        public static void createZona(String nombre, int extencion,  String especies) throws DAOException {
            
         try {
             ZonaDAO dao = new ZonaDAO();

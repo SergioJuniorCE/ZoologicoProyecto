@@ -1,5 +1,6 @@
 package objetos;
 
+import java.time.LocalDate;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
@@ -14,7 +15,7 @@ public class Guia extends Empleado {
     private ObjectId id;
     private Itinerario itinerario;
 
-    public Guia(Itinerario itinerario, String nombre, String telefono, Date fechaInicio) {
+    public Guia(Itinerario itinerario, String nombre, String telefono, LocalDate fechaInicio) {
         super(nombre, telefono, fechaInicio);
         this.itinerario = itinerario;
     }

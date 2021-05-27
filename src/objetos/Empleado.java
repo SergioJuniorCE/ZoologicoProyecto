@@ -1,6 +1,7 @@
 package objetos;
 
 
+import java.time.LocalDate;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
@@ -15,13 +16,18 @@ public class Empleado {
     private ObjectId id;
     private String nombre;
     private String telefono;
-    private Date fechaInicio;
+    private LocalDate fechaInicio;
 
-    public Empleado(String nombre, String telefono, Date fechaInicio) {
+    public Empleado(String nombre, String telefono, LocalDate fechaInicio) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.fechaInicio = fechaInicio;
     }
+
+    public Empleado() {
+    }
+    
+    
 
     public ObjectId getId() {
         return id;
@@ -47,11 +53,11 @@ public class Empleado {
         this.telefono = telefono;
     }
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 

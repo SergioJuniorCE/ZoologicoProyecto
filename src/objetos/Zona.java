@@ -5,6 +5,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Zona {
@@ -14,13 +15,19 @@ public class Zona {
     private ObjectId id;
     private String nombre;
     private int extencion;
-    private ArrayList<Especie> especies;
+//    private List<Especie> especies;
+    private String especies;
 
-    public Zona(String nombre, int extencion, ArrayList<Especie> especies) {
+    public Zona(String nombre, int extencion, String especies) {
         this.nombre = nombre;
         this.extencion = extencion;
         this.especies = especies;
     }
+
+    public Zona() {
+    }
+    
+    
 
     public ObjectId getId() {
         return id;
@@ -46,11 +53,11 @@ public class Zona {
         this.extencion = extencion;
     }
 
-    public ArrayList<Especie> getEspecies() {
+    public String getEspecies() {
         return especies;
     }
 
-    public void setEspecies(ArrayList<Especie> especies) {
+    public void setEspecies(String especies) {
         this.especies = especies;
     }
 

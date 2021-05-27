@@ -1,5 +1,6 @@
 package objetos;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import org.bson.codecs.pojo.annotations.BsonId;
@@ -13,16 +14,18 @@ public class Cuidador extends Empleado {
     private ObjectId id;
     private ArrayList<Especie> expertos;
     private ArrayList<Especie> basicos;
-    private Date fechaCiudado;
+    private LocalDate fechaCiudado;
     private Especie especieCuidada;
 
-    public Cuidador(ArrayList<Especie> expertos, ArrayList<Especie> basicos, Date fechaCiudado, Especie especieCuidada, String nombre, String telefono, Date fechaInicio) {
+    public Cuidador(ArrayList<Especie> expertos, ArrayList<Especie> basicos, LocalDate fechaCiudado, Especie especieCuidada, String nombre, String telefono, LocalDate fechaInicio) {
         super(nombre, telefono, fechaInicio);
         this.expertos = expertos;
         this.basicos = basicos;
         this.fechaCiudado = fechaCiudado;
         this.especieCuidada = especieCuidada;
     }
+    
+    
 
     public ObjectId getId() {
         return id;
@@ -48,11 +51,11 @@ public class Cuidador extends Empleado {
         this.basicos = basicos;
     }
 
-    public Date getFechaCiudado() {
+    public LocalDate getFechaCiudado() {
         return fechaCiudado;
     }
 
-    public void setFechaCiudado(Date fechaCiudado) {
+    public void setFechaCiudado(LocalDate fechaCiudado) {
         this.fechaCiudado = fechaCiudado;
     }
 

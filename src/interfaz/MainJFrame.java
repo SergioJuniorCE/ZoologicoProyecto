@@ -8,16 +8,19 @@ package interfaz;
 import control.Control;
 import dao.EspecieDAO;
 import dao.HabitatDAO;
+import dao.ZonaDAO;
 import exceptions.DAOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import objetos.Empleado;
 import objetos.Especie;
 import objetos.Habitat;
 import objetos.Itinerario;
 import objetos.Zona;
+import tables.EmpleadoTable;
 import tables.EspeciesTable;
 import tables.HabitatTable;
 import tables.ItinerarioTable;
@@ -32,13 +35,15 @@ public class MainJFrame extends javax.swing.JFrame {
     
     private HabitatDAO HabitatDAO;
     private EspecieDAO EspecieDAO;
+    private ZonaDAO ZonaDAO;
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() {
         initComponents();
         this.HabitatDAO = new HabitatDAO();
-        this.HabitatDAO = new HabitatDAO();
+        this.EspecieDAO = new EspecieDAO();
+        this.ZonaDAO = new ZonaDAO();
         comboHabitat();
         cargarTablaEspecie();
         comboEspecie();
@@ -79,6 +84,10 @@ public class MainJFrame extends javax.swing.JFrame {
         }
  
         }
+        
+        
+
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -130,7 +139,7 @@ public class MainJFrame extends javax.swing.JFrame {
         empleadoNombreTextField = new javax.swing.JTextField();
         empleadoTelefonoTextField = new javax.swing.JTextField();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        empleadoTable = new javax.swing.JTable();
         jTextField11 = new javax.swing.JTextField();
         jButton14 = new javax.swing.JButton();
         empleadoRegistrarBoton = new javax.swing.JButton();
@@ -490,7 +499,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jLabel16.setText("Fecha de inicio");
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        empleadoTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -513,15 +522,20 @@ public class MainJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane6.setViewportView(jTable4);
-        if (jTable4.getColumnModel().getColumnCount() > 0) {
-            jTable4.getColumnModel().getColumn(0).setResizable(false);
-            jTable4.getColumnModel().getColumn(1).setResizable(false);
-            jTable4.getColumnModel().getColumn(2).setResizable(false);
-            jTable4.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane6.setViewportView(empleadoTable);
+        if (empleadoTable.getColumnModel().getColumnCount() > 0) {
+            empleadoTable.getColumnModel().getColumn(0).setResizable(false);
+            empleadoTable.getColumnModel().getColumn(1).setResizable(false);
+            empleadoTable.getColumnModel().getColumn(2).setResizable(false);
+            empleadoTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jButton14.setText("Buscar");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
 
         empleadoRegistrarBoton.setText("Registrar");
         empleadoRegistrarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -1006,9 +1020,9 @@ public class MainJFrame extends javax.swing.JFrame {
          String nombre, telefono;
         nombre = empleadoNombreTextField.getText();
         telefono = empleadoTelefonoTextField.getText();
-        Date fechaInicio =  this.empleadoFechaIniciodatePicker.getDate();
+        LocalDate fechaInicio =  this.empleadoFechaIniciodatePicker.getDate();
         try {
-            Control.createHabitat(nombre, telefono, fechaInicio);
+            Control.createEmpleado(nombre, telefono, fechaInicio);
             JOptionPane.showMessageDialog(null, "Empleado Creado");
         } catch (DAOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -1034,13 +1048,7 @@ public class MainJFrame extends javax.swing.JFrame {
         
         String nombre = zonaNombreTextField.getText();
         int extencion = Integer.parseInt(zonaExtencionTextField.getText());
-        Object especies =  zonaEspeciesComboBox.getSelectedItem();
-        
-        ArrayList<Especie> es = new ArrayList<>();
-        
-        es.add(especies);
-       
-        
+        String especies =  zonaEspeciesComboBox.getItemAt(zonaEspeciesComboBox.getSelectedIndex());
         try {
             Control.createZona(nombre, extencion, especies);
             JOptionPane.showMessageDialog(null, "Empleado Creado");
@@ -1125,6 +1133,17 @@ public class MainJFrame extends javax.swing.JFrame {
        cargarTablaEspecie();
     }//GEN-LAST:event_especieActualizarBotonActionPerformed
 
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        try {
+            String nombre = empleadoNombreTextField.getText();
+            List<Empleado> empleados = Control.searchEmpleado(nombre);
+            EmpleadoTable table = new EmpleadoTable(empleados);
+            empleadoTable.setModel(table);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }          
+    }//GEN-LAST:event_jButton14ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1165,6 +1184,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private com.github.lgooddatepicker.components.DatePicker empleadoFechaIniciodatePicker;
     private javax.swing.JTextField empleadoNombreTextField;
     private javax.swing.JButton empleadoRegistrarBoton;
+    private javax.swing.JTable empleadoTable;
     private javax.swing.JTextField empleadoTelefonoTextField;
     private javax.swing.JButton especieActualizarBoton;
     private javax.swing.JTextArea especieDescripcionTextArea;
@@ -1234,7 +1254,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable7;
     private javax.swing.JTable jTable8;
     private javax.swing.JTextField jTextField11;
