@@ -40,7 +40,7 @@ public class EspecieDAO extends BaseDAO<Especie> {
                         set("nombre", ob.getNombre()),
                         set("nombreCientifico", ob.getNombreCientifico()),
                         set("descripcion", ob.getDescripcion()),
-                        set("habitats", ob.getHabitats())
+                        set("habitats", ob.getHabitat())
                 )
         );
     }

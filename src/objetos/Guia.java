@@ -19,8 +19,6 @@ public class Guia extends Empleado {
         this.itinerario = itinerario;
     }
     
-    
-
     public Itinerario getItinerario() {
         return itinerario;
     }

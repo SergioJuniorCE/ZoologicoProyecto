@@ -9,14 +9,19 @@ import control.Control;
 import dao.EspecieDAO;
 import dao.HabitatDAO;
 import exceptions.DAOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import objetos.Especie;
 import objetos.Habitat;
 import objetos.Itinerario;
+import objetos.Zona;
+import tables.EspeciesTable;
 import tables.HabitatTable;
 import tables.ItinerarioTable;
+import tables.ZonaTable;
 
 /**
  *
@@ -26,13 +31,17 @@ public class MainJFrame extends javax.swing.JFrame {
 
     
     private HabitatDAO HabitatDAO;
+    private EspecieDAO EspecieDAO;
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() {
         initComponents();
         this.HabitatDAO = new HabitatDAO();
+        this.HabitatDAO = new HabitatDAO();
         comboHabitat();
+        cargarTablaEspecie();
+        comboEspecie();
     }
 
     
@@ -46,10 +55,30 @@ public class MainJFrame extends javax.swing.JFrame {
             
             this.EspecieHabitatComboBox.addItem(habitat.getNombre());
             
-        }
-        
-        
+        }      
     }
+        
+        
+        public void comboEspecie(){
+         ArrayList<Especie> listaEspecie = (ArrayList<Especie>) this.EspecieDAO.list();
+      
+        for (Especie especie1 : listaEspecie) {
+            
+            this.zonaEspeciesComboBox.addItem(especie1.getNombreCientifico());
+            
+        } 
+    }
+        
+        public void cargarTablaEspecie(){
+            try {
+            List<Especie> especies = Control.searchEspecie();
+            EspeciesTable table = new EspeciesTable(especies);
+            especiesTable.setModel(table);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+ 
+        }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,12 +100,13 @@ public class MainJFrame extends javax.swing.JFrame {
         especieNombreTextField = new javax.swing.JTextField();
         especieNombreCientificoTextField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        especiesTable = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        especieRegistrarBoton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        especieActualizarBoton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         habitatNombreTextField = new javax.swing.JTextField();
@@ -97,33 +127,33 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
+        empleadoNombreTextField = new javax.swing.JTextField();
+        empleadoTelefonoTextField = new javax.swing.JTextField();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
         jTextField11 = new javax.swing.JTextField();
         jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
+        empleadoRegistrarBoton = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
         jButton17 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
-        datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
+        empleadoFechaIniciodatePicker = new com.github.lgooddatepicker.components.DatePicker();
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<String>();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
+        zonaEspeciesComboBox = new javax.swing.JComboBox<String>();
+        zonaExtencionTextField = new javax.swing.JTextField();
+        zonaNombreTextField = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton9 = new javax.swing.JButton();
+        zonaTable = new javax.swing.JTable();
+        zonaRegistrarBoton = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jButton13 = new javax.swing.JButton();
+        zonaBuscarTextField = new javax.swing.JTextField();
+        zonaBuscarBoton = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable8 = new javax.swing.JTable();
@@ -170,7 +200,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        especiesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -193,21 +223,21 @@ public class MainJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        jScrollPane2.setViewportView(especiesTable);
+        if (especiesTable.getColumnModel().getColumnCount() > 0) {
+            especiesTable.getColumnModel().getColumn(0).setResizable(false);
+            especiesTable.getColumnModel().getColumn(1).setResizable(false);
+            especiesTable.getColumnModel().getColumn(2).setResizable(false);
+            especiesTable.getColumnModel().getColumn(3).setResizable(false);
+            especiesTable.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jLabel5.setText("Especies Registradas");
 
-        jButton1.setText("Registrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        especieRegistrarBoton.setText("Registrar");
+        especieRegistrarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                especieRegistrarBotonActionPerformed(evt);
             }
         });
 
@@ -222,6 +252,13 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
+        especieActualizarBoton.setText("Actualizar");
+        especieActualizarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                especieActualizarBotonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -229,33 +266,38 @@ public class MainJFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addGap(7, 7, 7)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(especieNombreCientificoTextField)
-                                    .addComponent(especieNombreTextField)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(EspecieHabitatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1))
-                        .addGap(18, 18, 18))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(especieRegistrarBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton2)
                             .addComponent(jButton4))
-                        .addGap(26, 26, 26)))
+                        .addGap(26, 26, 26))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel3)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel2))
+                                        .addGap(7, 7, 7)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(especieNombreCientificoTextField)
+                                            .addComponent(especieNombreTextField)))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(EspecieHabitatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane1)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(117, 117, 117)
+                                .addComponent(especieActualizarBoton)))
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
@@ -286,13 +328,15 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(EspecieHabitatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(especieRegistrarBoton)
                     .addComponent(jButton2))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(especieActualizarBoton)
+                .addGap(58, 58, 58))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(54, Short.MAX_VALUE)
                 .addComponent(jLabel5)
@@ -479,10 +523,10 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jButton14.setText("Buscar");
 
-        jButton15.setText("Registrar");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
+        empleadoRegistrarBoton.setText("Registrar");
+        empleadoRegistrarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
+                empleadoRegistrarBotonActionPerformed(evt);
             }
         });
 
@@ -505,7 +549,7 @@ public class MainJFrame extends javax.swing.JFrame {
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(empleadoNombreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -514,16 +558,16 @@ public class MainJFrame extends javax.swing.JFrame {
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(empleadoTelefonoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(empleadoFechaIniciodatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(37, 37, 37)
                                 .addComponent(jButton14)
                                 .addGap(128, 128, 128)
-                                .addComponent(jButton15)
+                                .addComponent(empleadoRegistrarBoton)
                                 .addGap(64, 64, 64)
                                 .addComponent(jButton16)
                                 .addGap(49, 49, 49)
@@ -541,14 +585,14 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel14)
                     .addComponent(jLabel15)
                     .addComponent(jLabel16)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(empleadoNombreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(empleadoTelefonoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(empleadoFechaIniciodatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton14)
-                    .addComponent(jButton15)
+                    .addComponent(empleadoRegistrarBoton)
                     .addComponent(jButton16)
                     .addComponent(jButton17)
                     .addComponent(jButton18))
@@ -565,9 +609,9 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jLabel12.setText("especies");
 
-        jTextField7.setToolTipText("");
+        zonaNombreTextField.setToolTipText("");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        zonaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -590,18 +634,18 @@ public class MainJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setResizable(false);
-            jTable3.getColumnModel().getColumn(1).setResizable(false);
-            jTable3.getColumnModel().getColumn(2).setResizable(false);
-            jTable3.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane5.setViewportView(zonaTable);
+        if (zonaTable.getColumnModel().getColumnCount() > 0) {
+            zonaTable.getColumnModel().getColumn(0).setResizable(false);
+            zonaTable.getColumnModel().getColumn(1).setResizable(false);
+            zonaTable.getColumnModel().getColumn(2).setResizable(false);
+            zonaTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        jButton9.setText("Registrar");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        zonaRegistrarBoton.setText("Registrar");
+        zonaRegistrarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                zonaRegistrarBotonActionPerformed(evt);
             }
         });
 
@@ -618,10 +662,10 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jLabel13.setText("Buscar");
 
-        jButton13.setText("Busca");
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
+        zonaBuscarBoton.setText("Busca");
+        zonaBuscarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
+                zonaBuscarBotonActionPerformed(evt);
             }
         });
 
@@ -635,18 +679,18 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField6))
+                        .addComponent(zonaExtencionTextField))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12)
                             .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(zonaEspeciesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(zonaNombreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton9)
+                            .addComponent(zonaRegistrarBoton)
                             .addComponent(jButton11))
                         .addGap(35, 35, 35)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -659,9 +703,9 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addGap(8, 8, 8)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(zonaBuscarTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton13)
+                        .addComponent(zonaBuscarBoton)
                         .addContainerGap(328, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
@@ -670,18 +714,18 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(zonaNombreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(zonaExtencionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(zonaEspeciesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton9)
+                    .addComponent(zonaRegistrarBoton)
                     .addComponent(jButton10))
                 .addGap(37, 37, 37)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -692,8 +736,8 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton13))
+                    .addComponent(zonaBuscarTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(zonaBuscarBoton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
                 .addContainerGap())
@@ -958,21 +1002,52 @@ public class MainJFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton15ActionPerformed
+    private void empleadoRegistrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadoRegistrarBotonActionPerformed
+         String nombre, telefono;
+        nombre = empleadoNombreTextField.getText();
+        telefono = empleadoTelefonoTextField.getText();
+        Date fechaInicio =  this.empleadoFechaIniciodatePicker.getDate();
+        try {
+            Control.createHabitat(nombre, telefono, fechaInicio);
+            JOptionPane.showMessageDialog(null, "Empleado Creado");
+        } catch (DAOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_empleadoRegistrarBotonActionPerformed
 
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton13ActionPerformed
+    private void zonaBuscarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zonaBuscarBotonActionPerformed
+        try {
+            String nombre = zonaBuscarTextField.getText();
+            List<Zona> zonas = Control.searchZona(nombre);
+            ZonaTable table = new ZonaTable(zonas);
+            zonaTable.setModel(table);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_zonaBuscarBotonActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
+    private void zonaRegistrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zonaRegistrarBotonActionPerformed
+        
+        String nombre = zonaNombreTextField.getText();
+        int extencion = Integer.parseInt(zonaExtencionTextField.getText());
+        Object especies =  zonaEspeciesComboBox.getSelectedItem();
+        
+        ArrayList<Especie> es = new ArrayList<>();
+        
+        es.add(especies);
+       
+        
+        try {
+            Control.createZona(nombre, extencion, especies);
+            JOptionPane.showMessageDialog(null, "Empleado Creado");
+        } catch (DAOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_zonaRegistrarBotonActionPerformed
 
     private void habitatRegistrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_habitatRegistrarBotonActionPerformed
         String clima, vegetacion, continente, nombre;
@@ -1029,7 +1104,7 @@ public class MainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_habitatClimaComboboxActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void especieRegistrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_especieRegistrarBotonActionPerformed
         String nombre, nom_cientifico, descripcion, habitat;
         nombre = especieNombreTextField.getText();
         nom_cientifico = especieNombreCientificoTextField.getText();
@@ -1044,7 +1119,11 @@ public class MainJFrame extends javax.swing.JFrame {
         
         
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_especieRegistrarBotonActionPerformed
+
+    private void especieActualizarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_especieActualizarBotonActionPerformed
+       cargarTablaEspecie();
+    }//GEN-LAST:event_especieActualizarBotonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1083,10 +1162,16 @@ public class MainJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> EspecieHabitatComboBox;
-    private com.github.lgooddatepicker.components.DatePicker datePicker1;
+    private com.github.lgooddatepicker.components.DatePicker empleadoFechaIniciodatePicker;
+    private javax.swing.JTextField empleadoNombreTextField;
+    private javax.swing.JButton empleadoRegistrarBoton;
+    private javax.swing.JTextField empleadoTelefonoTextField;
+    private javax.swing.JButton especieActualizarBoton;
     private javax.swing.JTextArea especieDescripcionTextArea;
     private javax.swing.JTextField especieNombreCientificoTextField;
     private javax.swing.JTextField especieNombreTextField;
+    private javax.swing.JButton especieRegistrarBoton;
+    private javax.swing.JTable especiesTable;
     private javax.swing.JButton habitatBuscarBoton;
     private javax.swing.JComboBox<String> habitatClimaCombobox;
     private javax.swing.JComboBox<String> habitatContinenteCombobox;
@@ -1098,13 +1183,10 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> habitatVegetacionCombobox;
     private javax.swing.JButton habtitatEditarBoton;
     private javax.swing.JButton itinerarioRegistrarRecorridoBoton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
@@ -1112,8 +1194,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1154,17 +1234,10 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable7;
     private javax.swing.JTable jTable8;
-    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JButton quejaActualizarBoton;
     private javax.swing.JTextArea quejaDescripcionTextFileld;
     private javax.swing.JTextField quejaEmailTextFile;
@@ -1172,5 +1245,12 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton quejasEliminarBoton;
     private javax.swing.JButton quejasRegistrarBoton;
     private javax.swing.JTable quejasTables;
+    private javax.swing.JButton zonaBuscarBoton;
+    private javax.swing.JTextField zonaBuscarTextField;
+    private javax.swing.JComboBox<String> zonaEspeciesComboBox;
+    private javax.swing.JTextField zonaExtencionTextField;
+    private javax.swing.JTextField zonaNombreTextField;
+    private javax.swing.JButton zonaRegistrarBoton;
+    private javax.swing.JTable zonaTable;
     // End of variables declaration//GEN-END:variables
 }

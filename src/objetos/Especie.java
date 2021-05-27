@@ -3,7 +3,6 @@ package objetos;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -15,14 +14,19 @@ public class Especie {
     private String nombre;
     private String nombreCientifico;
     private String descripcion;
-    private ArrayList<Habitat> habitats;
+//  private ArrayList<Habitat> habitats;
+    private String habitat;
 
-    public Especie(String nombre, String nombreCientifico, String descripcion, ArrayList<Habitat> habitats) {
+    public Especie(String nombre, String nombreCientifico, String descripcion, String habitat) {
         this.nombre = nombre;
         this.nombreCientifico = nombreCientifico;
         this.descripcion = descripcion;
-        this.habitats = habitats;
+        this.habitat = habitat;
     }
+
+    public Especie() {
+    }
+    
 
 
 
@@ -57,14 +61,22 @@ public class Especie {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    public ArrayList<Habitat> getHabitats() {
-        return habitats;
+    
+        public String getHabitat() {
+        return habitat;
     }
 
-    public void setHabitats(ArrayList<Habitat> habitats) {
-        this.habitats = habitats;
+    public void setHabitat(String habitat) {
+        this.habitat = habitat;
     }
+
+//    public ArrayList<Habitat> getHabitats() {
+//        return habitats;
+//    }
+//
+//    public void setHabitats(ArrayList<Habitat> habitats) {
+//        this.habitats = habitats;
+//    }
 
     @Override
     public boolean equals(Object object) {
@@ -77,7 +89,7 @@ public class Especie {
 
     @Override
     public String toString() {
-        return "Especie{" + "nombre=" + nombre + ", nombreCientifico=" + nombreCientifico + ", descripcion=" + descripcion + ", habitats=" + habitats + '}';
+        return "Especie{" + "nombre=" + nombre + ", nombreCientifico=" + nombreCientifico + ", descripcion=" + descripcion + ", habitats=" + habitat + '}';
     }
 
 }
