@@ -7,10 +7,8 @@ import dao.HabitatDAO;
 import dao.ItinerarioDAO;
 import dao.ZonaDAO;
 import exceptions.DAOException;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import objetos.Empleado;
 import objetos.Especie;
@@ -18,6 +16,7 @@ import objetos.Guia;
 import objetos.Habitat;
 import objetos.Itinerario;
 import objetos.Zona;
+import org.bson.types.ObjectId;
 
 public class Control {
 
@@ -31,7 +30,6 @@ public class Control {
             throw new DAOException("No se pudo registrar habitat");
         }
     }
-    
 
     public static List<Habitat> searchHabitat(String nombre) {
         HabitatDAO dao = new HabitatDAO();
@@ -45,9 +43,21 @@ public class Control {
         }
         return habitats;
     }
+
+    public static void updateHabitat(ObjectId id, String clima, String vegetacion, String continente, String nombre) throws DAOException {
+        HabitatDAO dao = new HabitatDAO();
+        Habitat habitat = new Habitat(id, nombre, clima, vegetacion, continente);
+        dao.update(habitat);
+    }
     
-        public static void createEspecie(String nombre, String nomCientifico, String descripcion, String habitat) throws DAOException {
-           
+    public static void deleteHabitat(ObjectId id, String clima, String vegetacion, String continente, String nombre) throws DAOException {
+        HabitatDAO dao = new HabitatDAO();
+        Habitat habitat = new Habitat(id, nombre, clima, vegetacion, continente);
+        dao.delete(habitat);
+    }
+
+    public static void createEspecie(String nombre, String nomCientifico, String descripcion, String habitat) throws DAOException {
+
         try {
             EspecieDAO dao = new EspecieDAO();
             Especie especie = new Especie(nombre, nomCientifico, descripcion, habitat);
@@ -57,28 +67,18 @@ public class Control {
             throw new DAOException("No se pudo registrar especie");
         }
     }
-        
-        
-       public static List<Especie> searchEspecie() {
-       EspecieDAO dao = new EspecieDAO();
-       List<Especie> especies = new ArrayList<>();
-       System.out.println(dao.list().toString());
-       especies = dao.list();
-       
-       return especies;
+
+    public static List<Especie> searchEspecie() {
+        EspecieDAO dao = new EspecieDAO();
+        return dao.list();
     }
-    
-     public static List<Itinerario> searchItinerario() {
-       ItinerarioDAO dao = new ItinerarioDAO();
-       List<Itinerario> itinerarios = new ArrayList<>();
-       System.out.println(dao.list().toString());
-       itinerarios = dao.list();
-       
-       return itinerarios;
-     }
-     
-     
-         public static List<Empleado> searchEmpleado(String nombre) {
+
+    public static List<Itinerario> searchItinerario() {
+        ItinerarioDAO dao = new ItinerarioDAO();
+        return dao.list();
+    }
+
+    public static List<Empleado> searchEmpleado(String nombre) {
         EmpleadoDAO dao = new EmpleadoDAO();
         List<Empleado> empleados = new ArrayList<>();
         if (nombre != null && nombre.trim().length() > 0) {
@@ -90,9 +90,8 @@ public class Control {
         }
         return empleados;
     }
-         
-        public static void createEmpleado(String nombre, String telefono, LocalDate fechaInicio) throws DAOException {
-           
+
+    public static void createEmpleado(String nombre, String telefono, LocalDate fechaInicio) throws DAOException {
         try {
             EmpleadoDAO dao = new EmpleadoDAO();
             Empleado empleado = new Empleado(nombre, telefono, fechaInicio);
@@ -102,18 +101,13 @@ public class Control {
             throw new DAOException("No se pudo registrar especie");
         }
     }
-     
-       public static List<Guia> searchGuia() {
-       GuiaDAO dao = new GuiaDAO();
-       List<Guia> guias = new ArrayList<>();
-       System.out.println(dao.list().toString());
-       guias = dao.list();
-       
-       return guias;
-     }
-       
-       
-        public static List<Zona> searchZona(String nombre) {
+
+    public static List<Guia> searchGuia() {
+        GuiaDAO dao = new GuiaDAO();
+        return dao.list();
+    }
+
+    public static List<Zona> searchZona(String nombre) {
         ZonaDAO dao = new ZonaDAO();
         List<Zona> zonas = new ArrayList<>();
         if (nombre != null && nombre.trim().length() > 0) {
@@ -125,10 +119,8 @@ public class Control {
         }
         return zonas;
     }
-        
-        
-        public static void createZona(String nombre, int extencion,  String especies) throws DAOException {
-           
+
+    public static void createZona(String nombre, int extencion, String especies) throws DAOException {
         try {
             ZonaDAO dao = new ZonaDAO();
             Zona zona = new Zona(nombre, extencion, especies);
@@ -138,9 +130,4 @@ public class Control {
             throw new DAOException("No se pudo registrar la zona");
         }
     }
-       
-     
-     
-    
-    
 }

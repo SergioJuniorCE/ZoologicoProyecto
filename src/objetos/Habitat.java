@@ -16,8 +16,17 @@ public class Habitat implements Serializable {
     private String tipoVegetacion;
     private String continentes;
 
-    public Habitat(){}
-    
+    public Habitat() {
+    }
+
+    public Habitat(ObjectId id, String nombre, String clima, String tipoVegetacion, String continentes) {
+        this.id = id;
+        this.nombre = nombre;
+        this.clima = clima;
+        this.tipoVegetacion = tipoVegetacion;
+        this.continentes = continentes;
+    }
+
     public Habitat(String nombre, String clima, String tipoVegetacion, String continentes) {
         this.nombre = nombre;
         this.clima = clima;
@@ -78,6 +87,5 @@ public class Habitat implements Serializable {
     public String toString() {
         return "Habitat{" + "nombre=" + nombre + ", clima=" + clima + ", tipoVegetacion=" + tipoVegetacion + ", continentes=" + continentes + '}';
     }
-
 
 }

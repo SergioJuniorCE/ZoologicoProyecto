@@ -9,7 +9,6 @@ import static com.mongodb.client.model.Updates.combine;
 import org.bson.types.ObjectId;
 import static com.mongodb.client.model.Updates.set;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +18,8 @@ public class HabitatDAO extends BaseDAO<Habitat> {
 
     @Override
     public void create(Habitat ob) {
-      MongoCollection<Habitat> collection = this.getCollection();
-      collection.insertOne(ob);
+        MongoCollection<Habitat> collection = this.getCollection();
+        collection.insertOne(ob);
     }
 
     @Override
