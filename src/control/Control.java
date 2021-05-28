@@ -1,5 +1,6 @@
 package control;
 
+import dao.CuidadorDAO;
 import dao.EmpleadoDAO;
 import dao.EspecieDAO;
 import dao.GuiaDAO;
@@ -8,8 +9,10 @@ import dao.ItinerarioDAO;
 import dao.ZonaDAO;
 import exceptions.DAOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import objetos.Cuidador;
 import objetos.Empleado;
 import objetos.Especie;
 import objetos.Guia;
@@ -49,7 +52,7 @@ public class Control {
         Habitat habitat = new Habitat(id, nombre, clima, vegetacion, continente);
         dao.update(habitat);
     }
-    
+
     public static void deleteHabitat(ObjectId id, String clima, String vegetacion, String continente, String nombre) throws DAOException {
         HabitatDAO dao = new HabitatDAO();
         Habitat habitat = new Habitat(id, nombre, clima, vegetacion, continente);
@@ -73,7 +76,12 @@ public class Control {
         return dao.list();
     }
 
-    public static List<Itinerario> searchItinerario() {
+    public static List<Cuidador> listCuidador() {
+        CuidadorDAO dao = new CuidadorDAO();
+        return dao.list();
+    }
+    
+    public static List<Itinerario> listItinerario() {
         ItinerarioDAO dao = new ItinerarioDAO();
         return dao.list();
     }
@@ -91,7 +99,7 @@ public class Control {
         return empleados;
     }
 
-    public static void createEmpleado(String nombre, String telefono, LocalDate fechaInicio) throws DAOException {
+    public static void createEmpleado(String nombre, String telefono, LocalDateTime fechaInicio) throws DAOException {
         try {
             EmpleadoDAO dao = new EmpleadoDAO();
             Empleado empleado = new Empleado(nombre, telefono, fechaInicio);
@@ -128,6 +136,33 @@ public class Control {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new DAOException("No se pudo registrar la zona");
+        }
+    }
+
+    public static void createCuidador(String especieCuidada, String nombre,
+            LocalDateTime fecha, String especieExperto, String especieBasico)
+            throws DAOException {
+        try {
+            EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+
+            Empleado empleado = empleadoDAO.getByName(nombre);
+
+            CuidadorDAO cuidadorDAO = new CuidadorDAO();
+            
+            Cuidador cuidador = new Cuidador(
+                    especieExperto,
+                    especieBasico,
+                    fecha,
+                    especieCuidada,
+                    nombre,
+                    empleado.getTelefono(),
+                    empleado.getFechaInicio()
+            );
+            
+            cuidadorDAO.create(cuidador);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new DAOException("No se pudo registrar el cuidador" + e.getMessage());
         }
     }
 }

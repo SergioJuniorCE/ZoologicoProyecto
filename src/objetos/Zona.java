@@ -18,16 +18,14 @@ public class Zona {
 //    private List<Especie> especies;
     private String especies;
 
+    public Zona() {
+    }
+
     public Zona(String nombre, int extencion, String especies) {
         this.nombre = nombre;
         this.extencion = extencion;
         this.especies = especies;
     }
-
-    public Zona() {
-    }
-    
-    
 
     public ObjectId getId() {
         return id;

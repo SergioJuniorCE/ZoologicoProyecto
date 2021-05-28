@@ -17,6 +17,9 @@ public class Quejas {
     private String email;
     private String telefono;
 
+    public Quejas() {
+    }
+
     public Quejas(String descripcion, Date fecha, String email, String telefono) {
         this.descripcion = descripcion;
         this.fecha = fecha;

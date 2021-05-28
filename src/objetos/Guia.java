@@ -1,11 +1,11 @@
 package objetos;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class Guia extends Empleado {
@@ -15,11 +15,14 @@ public class Guia extends Empleado {
     private ObjectId id;
     private Itinerario itinerario;
 
-    public Guia(Itinerario itinerario, String nombre, String telefono, LocalDate fechaInicio) {
+    public Guia() {
+    }
+
+    public Guia(Itinerario itinerario, String nombre, String telefono, LocalDateTime fechaInicio) {
         super(nombre, telefono, fechaInicio);
         this.itinerario = itinerario;
     }
-    
+
     public Itinerario getItinerario() {
         return itinerario;
     }

@@ -26,9 +26,6 @@ public class Especie {
 
     public Especie() {
     }
-    
-
-
 
     public ObjectId getId() {
         return id;
@@ -61,8 +58,8 @@ public class Especie {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
-        public String getHabitat() {
+
+    public String getHabitat() {
         return habitat;
     }
 
@@ -77,7 +74,6 @@ public class Especie {
 //    public void setHabitats(ArrayList<Habitat> habitats) {
 //        this.habitats = habitats;
 //    }
-
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Especie)) {

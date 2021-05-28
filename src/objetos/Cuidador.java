@@ -1,8 +1,7 @@
 package objetos;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
@@ -12,58 +11,80 @@ public class Cuidador extends Empleado {
     @BsonProperty("_id")
     @BsonId
     private ObjectId id;
-    private ArrayList<Especie> expertos;
-    private ArrayList<Especie> basicos;
-    private LocalDate fechaCiudado;
-    private Especie especieCuidada;
+    private String experto;
+    private String basico;
+    private LocalDateTime fechaCiudado;
+    private String especieCuidada;
 
-    public Cuidador(ArrayList<Especie> expertos, ArrayList<Especie> basicos, LocalDate fechaCiudado, Especie especieCuidada, String nombre, String telefono, LocalDate fechaInicio) {
+    public Cuidador(){}
+    
+    public Cuidador(ObjectId id, String experto, String basico, LocalDateTime fechaCiudado, String especieCuidada, String nombre) {
+        super(nombre);
+        this.id = id;
+        this.experto = experto;
+        this.basico = basico;
+        this.fechaCiudado = fechaCiudado;
+        this.especieCuidada = especieCuidada;
+    }
+    
+    public Cuidador(ObjectId id, String experto, String basico, LocalDateTime fechaCiudado, String especieCuidada, String nombre, String telefono, LocalDateTime fechaInicio) {
         super(nombre, telefono, fechaInicio);
-        this.expertos = expertos;
-        this.basicos = basicos;
+        this.id = id;
+        this.experto = experto;
+        this.basico = basico;
+        this.fechaCiudado = fechaCiudado;
+        this.especieCuidada = especieCuidada;
+    }
+
+    public Cuidador(String experto, String basico, LocalDateTime fechaCiudado, String especieCuidada, String nombre, String telefono, LocalDateTime fechaInicio) {
+        super(nombre, telefono, fechaInicio);
+        this.experto = experto;
+        this.basico = basico;
         this.fechaCiudado = fechaCiudado;
         this.especieCuidada = especieCuidada;
     }
     
     
 
+    @Override
     public ObjectId getId() {
         return id;
     }
 
+    @Override
     public void setId(ObjectId id) {
         this.id = id;
     }
 
-    public ArrayList<Especie> getExpertos() {
-        return expertos;
+    public String getExpertos() {
+        return experto;
     }
 
-    public void setExpertos(ArrayList<Especie> expertos) {
-        this.expertos = expertos;
+    public void setExpertos(String expertos) {
+        this.experto = expertos;
     }
 
-    public ArrayList<Especie> getBasicos() {
-        return basicos;
+    public String getBasico() {
+        return basico;
     }
 
-    public void setBasicos(ArrayList<Especie> basicos) {
-        this.basicos = basicos;
+    public void setBasico(String basicos) {
+        this.basico = basicos;
     }
 
-    public LocalDate getFechaCiudado() {
+    public LocalDateTime getFechaCiudado() {
         return fechaCiudado;
     }
 
-    public void setFechaCiudado(LocalDate fechaCiudado) {
+    public void setFechaCiudado(LocalDateTime fechaCiudado) {
         this.fechaCiudado = fechaCiudado;
     }
 
-    public Especie getEspecieCuidada() {
+    public String getEspecieCuidada() {
         return especieCuidada;
     }
 
-    public void setEspecieCuidada(Especie especieCuidada) {
+    public void setEspecieCuidada(String especieCuidada) {
         this.especieCuidada = especieCuidada;
     }
 
@@ -77,8 +98,15 @@ public class Cuidador extends Empleado {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 31 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
     public String toString() {
-        return "Cuidador{" + "expertos=" + expertos + ", basicos=" + basicos + ", fechaCiudado=" + fechaCiudado + ", especieCuidada=" + especieCuidada + '}';
+        return "Cuidador{" + "expertos=" + experto + ", basicos=" + basico + ", fechaCiudado=" + fechaCiudado + ", especieCuidada=" + especieCuidada + '}';
     }
 
 }

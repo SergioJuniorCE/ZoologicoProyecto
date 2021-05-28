@@ -39,7 +39,7 @@ public class CuidadorDAO extends BaseDAO<Cuidador> {
                 combine(
                         set("nombre", ob.getNombre()),
                         set("expertos", ob.getExpertos()),
-                        set("basicos", ob.getBasicos()),
+                        set("basicos", ob.getBasico()),
                         set("fechaInicio", ob.getFechaInicio()),
                         set("especieCuidada", ob.getEspecieCuidada())
                 )

@@ -16,6 +16,9 @@ public class Itinerario {
     private int numeroEspecies;
     private Date fecha;
 
+    public Itinerario() {
+    }
+
     public Itinerario(int duracionMin, int longitud, int numeroVisitantes, int numeroEspecies, Date fecha) {
         this.duracionMin = duracionMin;
         this.longitud = longitud;
@@ -71,8 +74,6 @@ public class Itinerario {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -106,10 +107,10 @@ public class Itinerario {
             return false;
         }
         if (this.numeroEspecies != other.numeroEspecies) {
-            return false;   
+            return false;
         }
         if (this.fecha != other.fecha) {
-            return false;   
+            return false;
         }
         return true;
     }

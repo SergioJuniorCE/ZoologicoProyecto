@@ -1031,10 +1031,13 @@
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane9" min="-2" pref="488" max="-2" attributes="0"/>
+                                  <Component id="cuidadoresScrollPane" min="-2" pref="488" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                                      <Component id="jButton23" min="-2" pref="147" max="-2" attributes="0"/>
+                                      <Component id="itinerarioRegistrarCuidadorBoton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="itinerarioCuidadorEditarBoton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="cuidadorActualizarBoton" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
@@ -1044,7 +1047,7 @@
                           <Component id="jScrollPane3" min="-2" pref="568" max="-2" attributes="0"/>
                           <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="243" max="-2" attributes="0"/>
                               <Component id="itinerarioRegistrarRecorridoBoton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1063,12 +1066,14 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jScrollPane3" pref="347" max="32767" attributes="0"/>
-                          <Component id="jScrollPane9" pref="0" max="32767" attributes="0"/>
+                          <Component id="cuidadoresScrollPane" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton23" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="itinerarioRegistrarCuidadorBoton" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           <Component id="itinerarioRegistrarRecorridoBoton" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="itinerarioCuidadorEditarBoton" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="cuidadorActualizarBoton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="104" max="32767" attributes="0"/>
                   </Group>
@@ -1080,7 +1085,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable8">
+                <Component class="javax.swing.JTable" name="recorridosTable">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="7" rowCount="0">
@@ -1139,11 +1144,14 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane9">
+            <Container class="javax.swing.JScrollPane" name="cuidadoresScrollPane">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cuidadoresScrollPaneMouseClicked"/>
+              </Events>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable7">
+                <Component class="javax.swing.JTable" name="cuidadoresTable">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="6" rowCount="0">
@@ -1206,20 +1214,36 @@
                 <Property name="text" type="java.lang.String" value="Recorridos"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton23">
+            <Component class="javax.swing.JButton" name="itinerarioRegistrarCuidadorBoton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Registrar Cuidador"/>
+                <Property name="text" type="java.lang.String" value="Registrar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton23ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itinerarioRegistrarCuidadorBotonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="itinerarioRegistrarRecorridoBoton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Registrar Recorrido"/>
+                <Property name="text" type="java.lang.String" value="Registrar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itinerarioRegistrarRecorridoBotonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="itinerarioCuidadorEditarBoton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Editar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itinerarioCuidadorEditarBotonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="cuidadorActualizarBoton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Actualizar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cuidadorActualizarBotonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

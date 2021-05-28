@@ -5,14 +5,13 @@
  */
 package interfaz;
 
-import constantes.HabitatConstantes;
 import control.Control;
 import dao.*;
 import exceptions.DAOException;
 import java.awt.HeadlessException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,14 +20,13 @@ import objetos.*;
 import org.bson.types.ObjectId;
 import tables.*;
 
-
 /**
  *
  * @author maikr
  */
-public class MainJFrame extends javax.swing.JFrame {
+public final class MainJFrame extends javax.swing.JFrame {
 
-    private final HabitatDAO rabitatDAO;
+    private final HabitatDAO habitatDAO;
     private final EspecieDAO especieDAO;
     private final ZonaDAO zonaDAO;
 
@@ -37,7 +35,7 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     public MainJFrame() {
         initComponents();
-        this.rabitatDAO = new HabitatDAO();
+        this.habitatDAO = new HabitatDAO();
         this.especieDAO = new EspecieDAO();
         this.zonaDAO = new ZonaDAO();
         comboHabitat();
@@ -46,26 +44,24 @@ public class MainJFrame extends javax.swing.JFrame {
         habitatActualizarTabla();
         cargarTablaEmpleado();
         cargarTablaZona();
+        cargarTablaCuidador();
     }
 
     public void comboHabitat() {
-      
-        ArrayList<Habitat> listaHabitat = (ArrayList<Habitat>) this.rabitatDAO.list();
+
+        ArrayList<Habitat> listaHabitat = (ArrayList<Habitat>) this.habitatDAO.list();
         for (Habitat habitat : listaHabitat) {
 
             this.EspecieHabitatComboBox.addItem(habitat.getNombre());
 
         }
     }
-    
 
     public void comboEspecie() {
-            zonaEspeciesComboBox.removeAllItems();
+        zonaEspeciesComboBox.removeAllItems();
         ArrayList<Especie> listaEspecie = (ArrayList<Especie>) this.especieDAO.list();
         for (Especie especie1 : listaEspecie) {
-
             this.zonaEspeciesComboBox.addItem(especie1.getNombreCientifico());
-
         }
     }
 
@@ -79,17 +75,17 @@ public class MainJFrame extends javax.swing.JFrame {
         }
 
     }
-    
-    public void cargarTablaEmpleado( ) {
+
+    public void cargarTablaEmpleado() {
         try {
             List<Empleado> empleados = Control.searchEmpleado("");
             EmpleadoTable table = new EmpleadoTable(empleados);
             empleadoTable.setModel(table);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }  
+        }
     }
-    
+
     public void cargarTablaZona() {
         try {
             List<Zona> zonas = Control.searchZona("");
@@ -97,9 +93,16 @@ public class MainJFrame extends javax.swing.JFrame {
             zonaTable.setModel(table);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }  
+        }
     }
-    
+
+    public void cargarTablaCuidador() {
+        try {
+            cuidadoresTable.setModel(new CuidadorTable(Control.listCuidador()));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -181,13 +184,15 @@ public class MainJFrame extends javax.swing.JFrame {
         zonaBuscarBoton = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable8 = new javax.swing.JTable();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        jTable7 = new javax.swing.JTable();
+        recorridosTable = new javax.swing.JTable();
+        cuidadoresScrollPane = new javax.swing.JScrollPane();
+        cuidadoresTable = new javax.swing.JTable();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jButton23 = new javax.swing.JButton();
+        itinerarioRegistrarCuidadorBoton = new javax.swing.JButton();
         itinerarioRegistrarRecorridoBoton = new javax.swing.JButton();
+        itinerarioCuidadorEditarBoton = new javax.swing.JButton();
+        cuidadorActualizarBoton = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         quejasTables = new javax.swing.JTable();
@@ -830,7 +835,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Zona", jPanel4);
 
-        jTable8.setModel(new javax.swing.table.DefaultTableModel(
+        recorridosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -853,18 +858,24 @@ public class MainJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable8);
-        if (jTable8.getColumnModel().getColumnCount() > 0) {
-            jTable8.getColumnModel().getColumn(0).setResizable(false);
-            jTable8.getColumnModel().getColumn(1).setResizable(false);
-            jTable8.getColumnModel().getColumn(2).setResizable(false);
-            jTable8.getColumnModel().getColumn(3).setResizable(false);
-            jTable8.getColumnModel().getColumn(4).setResizable(false);
-            jTable8.getColumnModel().getColumn(5).setResizable(false);
-            jTable8.getColumnModel().getColumn(6).setResizable(false);
+        jScrollPane3.setViewportView(recorridosTable);
+        if (recorridosTable.getColumnModel().getColumnCount() > 0) {
+            recorridosTable.getColumnModel().getColumn(0).setResizable(false);
+            recorridosTable.getColumnModel().getColumn(1).setResizable(false);
+            recorridosTable.getColumnModel().getColumn(2).setResizable(false);
+            recorridosTable.getColumnModel().getColumn(3).setResizable(false);
+            recorridosTable.getColumnModel().getColumn(4).setResizable(false);
+            recorridosTable.getColumnModel().getColumn(5).setResizable(false);
+            recorridosTable.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        jTable7.setModel(new javax.swing.table.DefaultTableModel(
+        cuidadoresScrollPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cuidadoresScrollPaneMouseClicked(evt);
+            }
+        });
+
+        cuidadoresTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -887,31 +898,45 @@ public class MainJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane9.setViewportView(jTable7);
-        if (jTable7.getColumnModel().getColumnCount() > 0) {
-            jTable7.getColumnModel().getColumn(0).setResizable(false);
-            jTable7.getColumnModel().getColumn(1).setResizable(false);
-            jTable7.getColumnModel().getColumn(2).setResizable(false);
-            jTable7.getColumnModel().getColumn(3).setResizable(false);
-            jTable7.getColumnModel().getColumn(4).setResizable(false);
-            jTable7.getColumnModel().getColumn(5).setResizable(false);
+        cuidadoresScrollPane.setViewportView(cuidadoresTable);
+        if (cuidadoresTable.getColumnModel().getColumnCount() > 0) {
+            cuidadoresTable.getColumnModel().getColumn(0).setResizable(false);
+            cuidadoresTable.getColumnModel().getColumn(1).setResizable(false);
+            cuidadoresTable.getColumnModel().getColumn(2).setResizable(false);
+            cuidadoresTable.getColumnModel().getColumn(3).setResizable(false);
+            cuidadoresTable.getColumnModel().getColumn(4).setResizable(false);
+            cuidadoresTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jLabel25.setText("Cuidadores");
 
         jLabel26.setText("Recorridos");
 
-        jButton23.setText("Registrar Cuidador");
-        jButton23.addActionListener(new java.awt.event.ActionListener() {
+        itinerarioRegistrarCuidadorBoton.setText("Registrar");
+        itinerarioRegistrarCuidadorBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton23ActionPerformed(evt);
+                itinerarioRegistrarCuidadorBotonActionPerformed(evt);
             }
         });
 
-        itinerarioRegistrarRecorridoBoton.setText("Registrar Recorrido");
+        itinerarioRegistrarRecorridoBoton.setText("Registrar");
         itinerarioRegistrarRecorridoBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itinerarioRegistrarRecorridoBotonActionPerformed(evt);
+            }
+        });
+
+        itinerarioCuidadorEditarBoton.setText("Editar");
+        itinerarioCuidadorEditarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itinerarioCuidadorEditarBotonActionPerformed(evt);
+            }
+        });
+
+        cuidadorActualizarBoton.setText("Actualizar");
+        cuidadorActualizarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cuidadorActualizarBotonActionPerformed(evt);
             }
         });
 
@@ -927,16 +952,19 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cuidadoresScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGap(13, 13, 13)
-                                .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(itinerarioRegistrarCuidadorBoton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(itinerarioCuidadorEditarBoton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cuidadorActualizarBoton)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel26)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
+                        .addGap(243, 243, 243)
                         .addComponent(itinerarioRegistrarRecorridoBoton)))
                 .addContainerGap())
         );
@@ -950,11 +978,13 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(cuidadoresScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(itinerarioRegistrarRecorridoBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(itinerarioRegistrarCuidadorBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(itinerarioRegistrarRecorridoBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(itinerarioCuidadorEditarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cuidadorActualizarBoton))
                 .addContainerGap(104, Short.MAX_VALUE))
         );
 
@@ -1098,7 +1128,7 @@ public class MainJFrame extends javax.swing.JFrame {
         telefono = empleadoTelefonoTextField.getText();
         LocalDate fechaInicio = this.empleadoFechaIniciodatePicker.getDate();
         try {
-            Control.createEmpleado(nombre, telefono, fechaInicio);
+            Control.createEmpleado(nombre, telefono, fechaInicio.atStartOfDay());
             JOptionPane.showMessageDialog(null, "Empleado Creado");
         } catch (DAOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -1172,7 +1202,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void quejaActualizarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quejaActualizarBotonActionPerformed
         try {
 
-            List<Itinerario> itinerarios = Control.searchItinerario();
+            List<Itinerario> itinerarios = Control.listItinerario();
             ItinerarioTable table = new ItinerarioTable(itinerarios);
             quejasTables.setModel(table);
         } catch (Exception e) {
@@ -1202,8 +1232,6 @@ public class MainJFrame extends javax.swing.JFrame {
         } catch (DAOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
-        
 
 
     }//GEN-LAST:event_especieRegistrarBotonActionPerformed
@@ -1320,11 +1348,44 @@ public class MainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton16ActionPerformed
 
-    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        JCuidador ventana = new JCuidador();
-        ventana.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton23ActionPerformed
+    private void itinerarioRegistrarCuidadorBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itinerarioRegistrarCuidadorBotonActionPerformed
+        CuidadorDialog d = new CuidadorDialog(this, true);
+        d.setVisible(true);
+    }//GEN-LAST:event_itinerarioRegistrarCuidadorBotonActionPerformed
+
+    private void cuidadoresScrollPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cuidadoresScrollPaneMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cuidadoresScrollPaneMouseClicked
+
+    private void itinerarioCuidadorEditarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itinerarioCuidadorEditarBotonActionPerformed
+        String nombre, experto, basico, especieCuidada;
+        ObjectId id;
+        LocalDateTime fecha;
+
+        int row = cuidadoresTable.getSelectedRow();
+        int column = 0;
+
+        id = new ObjectId(cuidadoresTable.getModel().getValueAt(row, column).toString());
+
+        nombre = cuidadoresTable.getModel().getValueAt(row, ++column).toString();
+        experto = cuidadoresTable.getModel().getValueAt(row, ++column).toString();
+        basico = cuidadoresTable.getModel().getValueAt(row, ++column).toString();
+        especieCuidada = cuidadoresTable.getModel().getValueAt(row, ++column).toString();
+        fecha = LocalDateTime.parse(cuidadoresTable.getModel().getValueAt(row, ++column).toString());
+
+        CuidadorDialog d = new CuidadorDialog(this, true, id, experto, basico, fecha, especieCuidada, nombre);
+        d.setVisible(true);
+    }//GEN-LAST:event_itinerarioCuidadorEditarBotonActionPerformed
+
+    private void cuidadorActualizarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuidadorActualizarBotonActionPerformed
+        try {
+            List<Cuidador> cuidadores = Control.listCuidador();
+            CuidadorTable model = new CuidadorTable(cuidadores);
+            cuidadoresTable.setModel(model);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_cuidadorActualizarBotonActionPerformed
 
     private void habitatActualizarTabla() {
         try {
@@ -1373,6 +1434,9 @@ public class MainJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> EspecieHabitatComboBox;
+    private javax.swing.JButton cuidadorActualizarBoton;
+    private javax.swing.JScrollPane cuidadoresScrollPane;
+    private javax.swing.JTable cuidadoresTable;
     private com.github.lgooddatepicker.components.DatePicker empleadoFechaIniciodatePicker;
     private javax.swing.JTextField empleadoNombreTextField;
     private javax.swing.JButton empleadoRegistrarBoton;
@@ -1396,6 +1460,8 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTable habitatTable;
     private javax.swing.JComboBox<String> habitatVegetacionCombobox;
     private javax.swing.JButton habtitatEditarBoton;
+    private javax.swing.JButton itinerarioCuidadorEditarBoton;
+    private javax.swing.JButton itinerarioRegistrarCuidadorBoton;
     private javax.swing.JButton itinerarioRegistrarRecorridoBoton;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -1405,7 +1471,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
@@ -1447,10 +1512,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable7;
-    private javax.swing.JTable jTable8;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JButton quejaActualizarBoton;
     private javax.swing.JTextArea quejaDescripcionTextFileld;
@@ -1459,6 +1521,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton quejasEliminarBoton;
     private javax.swing.JButton quejasRegistrarBoton;
     private javax.swing.JTable quejasTables;
+    private javax.swing.JTable recorridosTable;
     private javax.swing.JButton zonaBuscarBoton;
     private javax.swing.JTextField zonaBuscarTextField;
     private javax.swing.JComboBox<String> zonaEspeciesComboBox;
