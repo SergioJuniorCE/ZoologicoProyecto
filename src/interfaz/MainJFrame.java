@@ -7,9 +7,7 @@ package interfaz;
 
 import constantes.HabitatConstantes;
 import control.Control;
-import dao.EspecieDAO;
-import dao.HabitatDAO;
-import dao.ZonaDAO;
+import dao.*;
 import exceptions.DAOException;
 import java.awt.HeadlessException;
 import java.time.LocalDate;
@@ -19,17 +17,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import objetos.Empleado;
-import objetos.Especie;
-import objetos.Habitat;
-import objetos.Itinerario;
-import objetos.Zona;
+import objetos.*;
 import org.bson.types.ObjectId;
-import tables.EmpleadoTable;
-import tables.EspeciesTable;
-import tables.HabitatTable;
-import tables.ItinerarioTable;
-import tables.ZonaTable;
+import tables.*;
+
 
 /**
  *
@@ -37,27 +28,29 @@ import tables.ZonaTable;
  */
 public class MainJFrame extends javax.swing.JFrame {
 
-    private final HabitatDAO HabitatDAO;
-    private final EspecieDAO EspecieDAO;
-    private final ZonaDAO ZonaDAO;
+    private final HabitatDAO rabitatDAO;
+    private final EspecieDAO especieDAO;
+    private final ZonaDAO zonaDAO;
 
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() {
         initComponents();
-        this.HabitatDAO = new HabitatDAO();
-        this.EspecieDAO = new EspecieDAO();
-        this.ZonaDAO = new ZonaDAO();
+        this.rabitatDAO = new HabitatDAO();
+        this.especieDAO = new EspecieDAO();
+        this.zonaDAO = new ZonaDAO();
         comboHabitat();
         cargarTablaEspecie();
         comboEspecie();
         habitatActualizarTabla();
+        cargarTablaEmpleado();
+        cargarTablaZona();
     }
 
     public void comboHabitat() {
       
-        ArrayList<Habitat> listaHabitat = (ArrayList<Habitat>) this.HabitatDAO.list();
+        ArrayList<Habitat> listaHabitat = (ArrayList<Habitat>) this.rabitatDAO.list();
         for (Habitat habitat : listaHabitat) {
 
             this.EspecieHabitatComboBox.addItem(habitat.getNombre());
@@ -68,7 +61,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     public void comboEspecie() {
             zonaEspeciesComboBox.removeAllItems();
-        ArrayList<Especie> listaEspecie = (ArrayList<Especie>) this.EspecieDAO.list();
+        ArrayList<Especie> listaEspecie = (ArrayList<Especie>) this.especieDAO.list();
         for (Especie especie1 : listaEspecie) {
 
             this.zonaEspeciesComboBox.addItem(especie1.getNombreCientifico());
@@ -86,6 +79,27 @@ public class MainJFrame extends javax.swing.JFrame {
         }
 
     }
+    
+    public void cargarTablaEmpleado( ) {
+        try {
+            List<Empleado> empleados = Control.searchEmpleado("");
+            EmpleadoTable table = new EmpleadoTable(empleados);
+            empleadoTable.setModel(table);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }  
+    }
+    
+    public void cargarTablaZona() {
+        try {
+            List<Zona> zonas = Control.searchZona("");
+            ZonaTable table = new ZonaTable(zonas);
+            zonaTable.setModel(table);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }  
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,7 +119,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         especieDescripcionTextArea = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
-        EspecieHabitatComboBox = new javax.swing.JComboBox<String>();
+        EspecieHabitatComboBox = new javax.swing.JComboBox<>();
         especieNombreTextField = new javax.swing.JTextField();
         especieNombreCientificoTextField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -128,9 +142,9 @@ public class MainJFrame extends javax.swing.JFrame {
         habtitatEditarBoton = new javax.swing.JButton();
         habitatEliminarBoton = new javax.swing.JButton();
         habitatLimpiarBoton = new javax.swing.JButton();
-        habitatClimaCombobox = new javax.swing.JComboBox<String>();
-        habitatVegetacionCombobox = new javax.swing.JComboBox<String>();
-        habitatContinenteCombobox = new javax.swing.JComboBox<String>();
+        habitatClimaCombobox = new javax.swing.JComboBox<>();
+        habitatVegetacionCombobox = new javax.swing.JComboBox<>();
+        habitatContinenteCombobox = new javax.swing.JComboBox<>();
         habitatBuscarBoton = new javax.swing.JButton();
         habitatIdTextField = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
@@ -153,7 +167,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        zonaEspeciesComboBox = new javax.swing.JComboBox<String>();
+        zonaEspeciesComboBox = new javax.swing.JComboBox<>();
         zonaExtencionTextField = new javax.swing.JTextField();
         zonaNombreTextField = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -888,6 +902,11 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel26.setText("Recorridos");
 
         jButton23.setText("Registrar Cuidador");
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
+            }
+        });
 
         itinerarioRegistrarRecorridoBoton.setText("Registrar Recorrido");
         itinerarioRegistrarRecorridoBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -1300,6 +1319,12 @@ public class MainJFrame extends javax.swing.JFrame {
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        JCuidador ventana = new JCuidador();
+        ventana.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton23ActionPerformed
 
     private void habitatActualizarTabla() {
         try {
